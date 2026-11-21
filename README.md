@@ -2,6 +2,33 @@
 
 A comprehensive, state-of-the-art medical delivery and pharmacy management platform. The platform connects patients, retail pharmacists, delivery agents, and system administrators via a meticulously designed suite of tailored dashboards, real-time tracking, and automated fulfillment workflows. 
 
+## Activity 3 deployment
+
+Jenkins checks out this repository, installs the frontend and backend lockfiles, runs the backend tests, then builds and archives `dist/`. Create a Pipeline job named `MediFlow-Activity-3`, select **Pipeline script from SCM** with Git, and use `Jenkinsfile` as the script path. The agent needs Git and Node.js 22.12 or newer in the Node.js 22 line on its `PATH`.
+
+For a local Docker demo, create a root `.env` with independently generated `POSTGRES_PASSWORD` and `JWT_SECRET` values made of hexadecimal characters. Use at least 24 random bytes for the database password and 32 for the JWT secret. Then run:
+
+```sh
+docker compose up --build --detach --wait
+docker compose ps
+curl -fsS http://localhost:8082/api/health
+```
+
+The local browser URL is `http://localhost:8082`. Nginx serves the frontend and proxies the API, uploads, and Socket.IO. Docker Compose keeps the database and uploads in named volumes. The demo starts with an empty database and uses no live payment, SMS, or prescription-processing credentials.
+
+For the AWS demo, run these commands from `terraform/` with your AWS CLI credentials active. Set `viewer_ipv4_cidr` to your own public IPv4 address in `/32` notation and `commit_sha` to the pushed Git commit you intend to deploy.
+
+```sh
+terraform init
+terraform fmt -check
+terraform validate
+terraform plan -out=activity3.tfplan -var="demo_cidr=$viewer_ipv4_cidr" -var="source_revision=$commit_sha"
+terraform apply activity3.tfplan
+terraform output
+```
+
+Terraform creates a separate AWS network and an EC2 demo host. EC2 checks out the supplied revision and builds the same Compose stack. Once instance bootstrap completes, use the `app_url` output for the browser and `/api/health` for the API check. The demo uses HTTP restricted to the specified IPv4 address and is intended for synthetic data. Replacing the instance replaces its local demo data. EC2 and its storage can incur charges while the environment exists.
+
 ## 🌟 Key Features & Core Ecosystem
 
 The system is built on a multi-role architecture offering extensive capabilities out of the box.

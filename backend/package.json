@@ -4,6 +4,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node src/index.js",
+    "test": "node --test",
     "dev": "nodemon src/index.js",
     "seed": "node src/utils/seed.js"
   },

@@ -11,7 +11,11 @@ export function useSocket() {
     if (!token) return;
 
     if (!socket) {
-      socket = io(import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000', {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const socketUrl = apiUrl === '/api'
+        ? window.location.origin
+        : apiUrl?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
+      socket = io(socketUrl, {
         auth: { token },
       });
     }

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+export DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y docker.io docker-compose-v2 git openssl
+systemctl enable --now docker
+
+git init -q /opt/mediflow
+cd /opt/mediflow
+git remote add origin https://github.com/Vanshika6605/MedicalDeliveryPlatform.git
+git fetch --depth=1 origin '${source_revision}'
+git checkout --detach FETCH_HEAD
+
+metadata_url=http://169.254.169.254/latest
+metadata_token=$(curl -fsS --retry 4 -X PUT "$metadata_url/api/token" -H 'X-aws-ec2-metadata-token-ttl-seconds: 60')
+public_ip=$(curl -fsS --retry 4 -H "X-aws-ec2-metadata-token: $metadata_token" "$metadata_url/meta-data/public-ipv4")
+
+cat > .env <<EOF
+POSTGRES_PASSWORD=$(openssl rand -hex 24)
+JWT_SECRET=$(openssl rand -hex 32)
+MEDIFLOW_BIND_IP=0.0.0.0
+MEDIFLOW_PORT=80
+MEDIFLOW_IMAGE_TAG=${source_revision}
+CLIENT_URLS=http://$public_ip
+EOF
+
+docker compose up --build --detach --wait --wait-timeout 180
+curl -fsS http://127.0.0.1/api/health
