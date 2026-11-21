@@ -2,6 +2,23 @@
 
 A comprehensive, state-of-the-art medical delivery and pharmacy management platform. The platform connects patients, retail pharmacists, delivery agents, and system administrators via a meticulously designed suite of tailored dashboards, real-time tracking, and automated fulfillment workflows. 
 
+## Assignment 2 Docker and Kubernetes
+
+The `web` Dockerfile target packages the Vite production build into Nginx. The `api` target packages Express. With Docker Desktop, Minikube, and `kubectl` available, run this from the repository root in PowerShell:
+
+```powershell
+.\deploy.ps1
+minikube -p mediflow-a2 service mediflow-web -n mediflow-a2 --url
+```
+
+Open `/home` and `/login` at the displayed URL. Minikube's service tunnel must stay open while browsing on Windows. For a fixed URL, open a separate PowerShell and run the following command, then browse to `http://127.0.0.1:8094/home`. The fixed URL is also the default Socket.IO browser origin.
+
+```powershell
+kubectl --context mediflow-a2 -n mediflow-a2 port-forward service/mediflow-web 8094:80
+```
+
+The script loads both locally built images into Minikube, creates demo credentials on the first run, and applies the manifests to the `mediflow-a2` namespace. The web Deployment runs three Nginx replicas with resource requests and limits, a web liveness probe, and readiness through `/api/health`. The NodePort Service uses port `30080`. Express and PostgreSQL stay behind internal Services. PostgreSQL stores demo data in a volume claim. The demo uses a fresh database and omits external payment, SMS, and prescription-processing credentials.
+
 ## Activity 3 deployment
 
 Jenkins checks out this repository, installs the frontend and backend lockfiles, runs the backend tests, then builds and archives `dist/`. Create a Pipeline job named `MediFlow-Activity-3`, select **Pipeline script from SCM** with Git, and use `Jenkinsfile` as the script path. The agent needs Git and Node.js 22.12 or newer in the Node.js 22 line on its `PATH`.
