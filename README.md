@@ -19,6 +19,8 @@ kubectl --context mediflow-a2 -n mediflow-a2 port-forward service/mediflow-web 8
 
 The script loads both locally built images into Minikube, creates demo credentials on the first run, and applies the manifests to the `mediflow-a2` namespace. The web Deployment runs three Nginx replicas with resource requests and limits, a web liveness probe, and readiness through `/api/health`. The NodePort Service uses port `30080`. Express and PostgreSQL stay behind internal Services. PostgreSQL stores demo data in a volume claim. The demo uses a fresh database and omits external payment, SMS, and prescription-processing credentials.
 
+For an existing local Kubernetes cluster, set up a kubeconfig context named `mediflow-a2` and import the two image tags into that cluster's runtime. Run `./deploy.ps1 -UseExistingCluster -SkipBuild` to apply the same manifests without starting Minikube. The cluster needs a default StorageClass for the demo database claim.
+
 ## Activity 3 deployment
 
 Jenkins checks out this repository, installs the frontend and backend lockfiles, runs the backend tests, then builds and archives `dist/`. Create a Pipeline job named `MediFlow-Activity-3`, select **Pipeline script from SCM** with Git, and use `Jenkinsfile` as the script path. The agent needs Git and Node.js 22.12 or newer in the Node.js 22 line on its `PATH`.

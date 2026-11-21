@@ -2,7 +2,8 @@
 param(
     [string]$Minikube = 'minikube',
     [string]$BrowserOrigin = 'http://127.0.0.1:8094',
-    [switch]$SkipBuild
+    [switch]$SkipBuild,
+    [switch]$UseExistingCluster
 )
 
 $ErrorActionPreference = 'Stop'
@@ -28,7 +29,9 @@ function New-HexSecret([int]$Length) {
 
 Push-Location $PSScriptRoot
 try {
-    Invoke-Native $Minikube @('start', '--driver=docker', "--profile=$profile", '--cpus=2', '--memory=2600mb')
+    if (-not $UseExistingCluster) {
+        Invoke-Native $Minikube @('start', '--driver=docker', "--profile=$profile", '--cpus=2', '--memory=2600mb')
+    }
     $cluster = @('--context', $profile)
     $target = $cluster + @('--namespace', $namespace)
 
@@ -36,7 +39,9 @@ try {
         if (-not $SkipBuild) {
             Invoke-Native 'docker' @('build', '--target', $service, '--tag', $images[$service], '.')
         }
-        Invoke-Native $Minikube @('--profile', $profile, 'image', 'load', $images[$service], '--overwrite=true')
+        if (-not $UseExistingCluster) {
+            Invoke-Native $Minikube @('--profile', $profile, 'image', 'load', $images[$service], '--overwrite=true')
+        }
     }
 
     @{
