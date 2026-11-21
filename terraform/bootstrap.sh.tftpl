@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-umask 077
+umask 022
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
@@ -17,6 +17,7 @@ metadata_url=http://169.254.169.254/latest
 metadata_token=$(curl -fsS --retry 4 -X PUT "$metadata_url/api/token" -H 'X-aws-ec2-metadata-token-ttl-seconds: 60')
 public_ip=$(curl -fsS --retry 4 -H "X-aws-ec2-metadata-token: $metadata_token" "$metadata_url/meta-data/public-ipv4")
 
+install -m 600 /dev/null .env
 cat > .env <<EOF
 POSTGRES_PASSWORD=$(openssl rand -hex 24)
 JWT_SECRET=$(openssl rand -hex 32)
