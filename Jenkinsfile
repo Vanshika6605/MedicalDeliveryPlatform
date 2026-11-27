@@ -50,11 +50,22 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/**', fingerprint: true
             }
         }
+        stage('Deploy to Staging') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'node deploy/jenkins-staging.cjs'
+                    } else {
+                        bat 'node deploy/jenkins-staging.cjs'
+                    }
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'MediFlow tests passed and the production frontend was archived.'
+            echo 'MediFlow tests passed, the frontend was archived, and staging passed its health check.'
         }
         failure {
             echo 'See Console Output for the failing stage.'

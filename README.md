@@ -6,6 +6,8 @@ A comprehensive, state-of-the-art medical delivery and pharmacy management platf
 
 Jenkins checks out this repository, installs the frontend and backend lockfiles, runs the backend tests, then builds and archives `dist/`. Create a Pipeline job named `MediFlow-Activity-3`, select **Pipeline script from SCM** with Git, and use `Jenkinsfile` as the script path. The agent needs Git and Node.js 22.12 or newer in the Node.js 22 line on its `PATH`.
 
+The final Jenkins stage deploys an isolated Docker Compose staging stack on `http://127.0.0.1:8096`. Give the Jenkins agent Docker Compose access and set its `MEDIFLOW_CI_ENV_FILE` environment variable to an agent-local file containing persistent, independently generated hexadecimal `POSTGRES_PASSWORD` and `JWT_SECRET` values. The pipeline tags images with the checked-out commit and checks `/api/health` after startup. The Terraform AWS demonstration uses a separate provisioning workflow.
+
 For a local Docker demo, create a root `.env` with independently generated `POSTGRES_PASSWORD` and `JWT_SECRET` values made of hexadecimal characters. Use at least 24 random bytes for the database password and 32 for the JWT secret. Then run:
 
 ```sh
