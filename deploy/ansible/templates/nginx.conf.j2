@@ -1,0 +1,41 @@
+user www-data;
+worker_processes 1;
+pid /run/mediflow-web.pid;
+error_log stderr warn;
+
+events {
+    worker_connections 256;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    access_log /var/log/nginx/mediflow-access.log;
+    server_tokens off;
+
+    server {
+        listen 127.0.0.1:{{ mediflow_port }};
+        root {{ mediflow_web_root }};
+        index index.html;
+
+        location = /health {
+            access_log off;
+            default_type application/json;
+            add_header Cache-Control "no-store";
+            return 200 '{"status":"healthy","service":"mediflow-web"}';
+        }
+
+        location ~ ^/(api|socket\.io)(/|$) {
+            default_type application/json;
+            return 503 '{"status":"unavailable","service":"mediflow-api"}';
+        }
+
+        location /assets/ {
+            try_files $uri =404;
+        }
+
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+    }
+}

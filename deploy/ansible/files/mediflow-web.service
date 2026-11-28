@@ -1,0 +1,13 @@
+[Unit]
+Description=MediFlow Nginx web tier
+After=network.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/sbin/nginx -t -c /etc/nginx/mediflow.conf
+ExecStart=/usr/sbin/nginx -c /etc/nginx/mediflow.conf -g 'daemon off;'
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

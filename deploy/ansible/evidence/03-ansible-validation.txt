@@ -1,0 +1,26 @@
+$ ansible --version
+ansible [core 2.20.4]
+  config file = None
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /opt/mediflow-ansible-venv/lib/python3.14/site-packages/ansible
+  ansible collection location = /root/.ansible/collections:/usr/share/ansible/collections
+  executable location = /opt/mediflow-ansible-venv/bin/ansible
+  python version = 3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0] (/opt/mediflow-ansible-venv/bin/python3)
+  jinja version = 3.1.6
+  pyyaml version = 6.0.4 (with libyaml v0.2.6)
+
+$ ansible-inventory -i inventory.ini --graph
+@all:
+  |--@ungrouped:
+  |--@mediflow_web:
+  |  |--mediflow-wsl
+
+$ ansible-playbook -i inventory.ini site.yml --syntax-check
+
+playbook: site.yml
+
+$ ansible -i inventory.ini mediflow_web -m ansible.builtin.ping
+mediflow-wsl | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}

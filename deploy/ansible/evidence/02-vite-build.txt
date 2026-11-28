@@ -1,0 +1,53 @@
+> medicaldeliveryplatform@0.0.0 build
+> vite build
+
+vite v8.0.1 building client environment for production...
+
+transforming...✓ 222 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                  1.22 kB │ gzip:  0.57 kB
+dist/assets/leaflet-vh-t_kPv.css                15.09 kB │ gzip:  6.36 kB
+dist/assets/index-CbT_Yvpl.css                 119.98 kB │ gzip: 18.77 kB
+dist/assets/orders-BYQzPknx.js                   0.15 kB │ gzip:  0.14 kB
+dist/assets/payments-CKcuxpfX.js                 0.17 kB │ gzip:  0.15 kB
+dist/assets/addresses-qopDGNyF.js                0.19 kB │ gzip:  0.15 kB
+dist/assets/auth-B3AUGnsb.js                     0.33 kB │ gzip:  0.22 kB
+dist/assets/agent-Cf6oYgs5.js                    0.36 kB │ gzip:  0.24 kB
+dist/assets/products-BtyCtNAR.js                 0.45 kB │ gzip:  0.33 kB
+dist/assets/RetailerOrdersPage-DPJ3MdgP.js       1.31 kB │ gzip:  0.70 kB
+dist/assets/AddressPinMap-FBTUTLed.js            1.47 kB │ gzip:  0.88 kB
+dist/assets/HelpPage-BePu56_K.js                 2.29 kB │ gzip:  0.87 kB
+dist/assets/ProductsNavBar-DxponABb.js           4.85 kB │ gzip:  2.04 kB
+dist/assets/ProductsFooter-BqllTX0e.js           5.29 kB │ gzip:  1.23 kB
+dist/assets/LoginPage-CdfRs9qz.js                6.80 kB │ gzip:  2.25 kB
+dist/assets/RetailerProfilePage-BbFQA9MH.js      7.60 kB │ gzip:  2.00 kB
+dist/assets/jsx-runtime-CAZ8zIXP.js              7.88 kB │ gzip:  2.98 kB
+dist/assets/AgentHistoryPage-Blo6c3Pm.js         8.46 kB │ gzip:  2.43 kB
+dist/assets/AgentPerformancePage-CN61vnqa.js     8.62 kB │ gzip:  2.22 kB
+dist/assets/CreateAccountPage-CKbmAkjr.js        8.94 kB │ gzip:  2.53 kB
+dist/assets/AgentProfilePage-CZASJIf8.js         9.59 kB │ gzip:  2.44 kB
+dist/assets/RetailerDashboardPage-CdoaNT0D.js   11.14 kB │ gzip:  2.84 kB
+dist/assets/ProductDetailsPage-DNVcz-4Z.js      11.18 kB │ gzip:  3.10 kB
+dist/assets/RetailerFooter-Mi_ZoOj0.js          11.63 kB │ gzip:  3.30 kB
+dist/assets/CartPage-Dmb5TwUL.js                12.15 kB │ gzip:  3.12 kB
+dist/assets/PaymentsPage-C4U9r5qb.js            12.42 kB │ gzip:  3.16 kB
+dist/assets/RetailerOrdersTable-KHp-i17H.js     13.20 kB │ gzip:  3.76 kB
+dist/assets/TrackingPage-DgBUcy3d.js            14.26 kB │ gzip:  4.51 kB
+dist/assets/UploadPage-C9U6xT-R.js              14.82 kB │ gzip:  4.11 kB
+dist/assets/OrdersPage-dtZmiVZG.js              14.98 kB │ gzip:  3.93 kB
+dist/assets/AdminDashboardPage-yAnKeV6c.js      15.54 kB │ gzip:  4.50 kB
+dist/assets/ProductsPage-DWxyTYUc.js            18.25 kB │ gzip:  5.27 kB
+dist/assets/CheckoutPage-C0EHpNY1.js            19.93 kB │ gzip:  5.20 kB
+dist/assets/RetailerInventoryPage-Bs6Cyi-4.js   25.95 kB │ gzip:  6.67 kB
+dist/assets/HomePage-CJrdQeG2.js                27.46 kB │ gzip:  6.73 kB
+dist/assets/AgentDashboardPage-CkPSdT92.js      29.47 kB │ gzip:  7.36 kB
+dist/assets/PatientProfilePage-CVzaY6xP.js      31.25 kB │ gzip:  6.48 kB
+dist/assets/axios-BWb05zvG.js                   37.02 kB │ gzip: 14.67 kB
+dist/assets/DashboardPage-BopdS-h4.js           37.55 kB │ gzip:  8.44 kB
+dist/assets/AuthContext-BZGYev5j.js             42.04 kB │ gzip: 15.02 kB
+dist/assets/useSocket-v7jyJK-w.js               43.06 kB │ gzip: 13.72 kB
+dist/assets/leaflet-ATstKTsK.js                152.69 kB │ gzip: 44.66 kB
+dist/assets/index-BMjlyBYK.js                  194.76 kB │ gzip: 61.51 kB
+
+✓ built in 1.11s

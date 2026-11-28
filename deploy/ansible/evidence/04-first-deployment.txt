@@ -1,0 +1,47 @@
+$ ansible-playbook -i inventory.ini site.yml
+
+PLAY [Deploy the MediFlow web tier] ********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [mediflow-wsl]
+
+TASK [Check that the frontend was built on the control node] *******************
+ok: [mediflow-wsl -> localhost]
+
+TASK [Require a frontend build before provisioning] ****************************
+ok: [mediflow-wsl] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [Install Nginx without starting the distribution default site] ************
+changed: [mediflow-wsl]
+
+TASK [Create the document root] ************************************************
+changed: [mediflow-wsl]
+
+TASK [Copy the compiled MediFlow UI] *******************************************
+changed: [mediflow-wsl]
+
+TASK [Validate and install the MediFlow Nginx configuration] *******************
+changed: [mediflow-wsl]
+
+TASK [Install the MediFlow systemd unit] ***************************************
+changed: [mediflow-wsl]
+
+TASK [Apply pending configuration changes before checking HTTP] ****************
+
+RUNNING HANDLER [Restart MediFlow web service] *********************************
+changed: [mediflow-wsl]
+
+TASK [Enable and start the MediFlow web service] *******************************
+changed: [mediflow-wsl]
+
+TASK [Verify the Nginx health response] ****************************************
+ok: [mediflow-wsl]
+
+TASK [Verify the React entry page] *********************************************
+ok: [mediflow-wsl]
+
+PLAY RECAP *********************************************************************
+mediflow-wsl               : ok=12   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

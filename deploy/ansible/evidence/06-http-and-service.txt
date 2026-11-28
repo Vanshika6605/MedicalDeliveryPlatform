@@ -1,0 +1,74 @@
+$ systemctl is-active mediflow-web
+active
+
+$ systemctl is-enabled mediflow-web
+enabled
+
+$ curl -fsSi http://127.0.0.1:8094/health
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 28 Nov 2026 09:45:48 GMT
+Content-Type: application/json
+Content-Length: 45
+Connection: keep-alive
+Cache-Control: no-store
+
+{"status":"healthy","service":"mediflow-web"}
+
+$ curl -fsSI http://127.0.0.1:8094/login
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 28 Nov 2026 09:45:48 GMT
+Content-Type: text/html
+Content-Length: 1220
+Last-Modified: Sat, 28 Nov 2026 09:44:39 GMT
+Connection: keep-alive
+ETag: "6b0aa287-4c4"
+Accept-Ranges: bytes
+
+
+$ curl -fsSI http://127.0.0.1:8094/assets/index-BMjlyBYK.js
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 28 Nov 2026 09:45:48 GMT
+Content-Type: application/javascript
+Content-Length: 194764
+Last-Modified: Sat, 28 Nov 2026 09:44:50 GMT
+Connection: keep-alive
+ETag: "6b0aa292-2f8cc"
+Accept-Ranges: bytes
+
+
+$ curl -sSi http://127.0.0.1:8094/api/health
+HTTP/1.1 503 Service Temporarily Unavailable
+Server: nginx
+Date: Sat, 28 Nov 2026 09:45:48 GMT
+Content-Type: application/json
+Content-Length: 49
+Connection: keep-alive
+
+{"status":"unavailable","service":"mediflow-api"}
+$ curl -sSI http://127.0.0.1:8094/assets/does-not-exist.js
+HTTP/1.1 404 Not Found
+Server: nginx
+Date: Sat, 28 Nov 2026 09:45:48 GMT
+Content-Type: text/html
+Content-Length: 146
+Connection: keep-alive
+
+
+$ journalctl -u mediflow-web -n 7 --no-pager -o cat
+Starting mediflow-web.service - MediFlow Nginx web tier...
+nginx: the configuration file /etc/nginx/mediflow.conf syntax is ok
+nginx: configuration file /etc/nginx/mediflow.conf test is successful
+Started mediflow-web.service - MediFlow Nginx web tier.
+
+$ tail -n 8 /var/log/nginx/mediflow-access.log
+127.0.0.1 - - [28/Nov/2026:09:45:08 +0000] "GET / HTTP/1.1" 200 1220 "-" "ansible-httpget"
+127.0.0.1 - - [28/Nov/2026:09:45:48 +0000] "GET / HTTP/1.1" 200 1220 "-" "ansible-httpget"
+127.0.0.1 - - [28/Nov/2026:09:45:48 +0000] "HEAD /login HTTP/1.1" 200 0 "-" "curl/8.18.0"
+127.0.0.1 - - [28/Nov/2026:09:45:48 +0000] "HEAD /assets/index-BMjlyBYK.js HTTP/1.1" 200 0 "-" "curl/8.18.0"
+127.0.0.1 - - [28/Nov/2026:09:45:48 +0000] "GET /api/health HTTP/1.1" 503 49 "-" "curl/8.18.0"
+127.0.0.1 - - [28/Nov/2026:09:45:48 +0000] "GET /api/health HTTP/1.1" 503 49 "-" "curl/8.18.0"
+127.0.0.1 - - [28/Nov/2026:09:45:48 +0000] "HEAD /assets/does-not-exist.js HTTP/1.1" 404 0 "-" "curl/8.18.0"
+127.0.0.1 - - [28/Nov/2026:09:45:48 +0000] "GET /assets/does-not-exist.js HTTP/1.1" 404 146 "-" "curl/8.18.0"
